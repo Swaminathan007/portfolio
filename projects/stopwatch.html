@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        STOPWATCH
+    </title>
+    <style>
+        *{
+            font-family: sans-serif;
+        }
+        .container{
+            width:60%;
+            background-color:chocolate;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .timer{
+            font-size: 32px;
+            background-color: azure;
+            width:60%;
+            position: relative;
+            left:20%;
+            height:40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+        .buttons{
+            margin:10px;
+        }
+        button{
+            width:100px;
+            height: 40px;
+            border:none;
+            border-radius: 20px;
+            background:none;
+            border:1px solid black;
+        }
+        button:hover{
+            background-color: black;
+            color:white;
+        }
+        @media(max-width:600px){
+            .container{
+                width:80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>STOPWATCH</h2>
+        <div class="timer" id="timer">
+            00:00:00
+        </div>
+        <div class="buttons">
+            <button type="button" id="start">Start</button>
+            <button type="button" id="pause">Pause</button>
+            <button type="button" id="reset">Reset</button>
+        </div>
+    </div>
+    <script>
+        var hr=0,min=0,sec=0;
+        var dhr,dmin,dsec;
+        function start(){
+            sec++;
+            if(sec == 60){
+                min++;
+                sec = 0;
+            }
+            if(min == 60){
+                hr++;
+                min = 0;
+            }
+            if(sec < 10){
+                dsec = "0"+sec.toString();
+            }
+            else{
+                dsec = sec.toString();
+            }
+            if(min < 10){
+                dmin = "0"+min.toString();
+            }
+            else{
+                dmin = min.toString();
+            }
+            if(hr < 10){
+                dhr = "0"+hr.toString();
+            }
+            else{
+                dhr = hr.toString();
+            }
+            document.getElementById("timer").innerText = `${dhr}:${dmin}:${dsec}`;
+        }
+        document.getElementById("start").onclick = () => {
+            timeout = window.setInterval(start,1000);
+        }
+        document.getElementById("pause").onclick= () => {
+            window.clearInterval(timeout);
+        }
+        document.getElementById("reset").onclick = () => {
+            window.clearInterval(timeout);
+            hr = min = sec = 0;
+            document.getElementById("timer").innerText = "00:00:00";
+        }
+    </script>
+</body>
+</html>
