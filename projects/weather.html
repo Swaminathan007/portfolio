@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <section class="vh-100">
+        <div class="container py-5 h-100 ">
+            <div class="row d-flex justify-content-center align-items-center h-100 shadow-lg rounded bg-success">
+            <div class="col-md-8 col-lg-6 col-xl-4">
+                <h3 class="mb-4 pb-2 fw-normal text-center">Check the weather forecast</h3>
+                    <div class="input-group rounded mb-3">
+                    <input type="search" class="form-control rounded" placeholder="City" aria-label="Search"
+                    aria-describedby="search-addon" id="city">
+                    <button type="button" class="btn btn-primary" id="search">
+                        Search
+                    </button>
+                    </div>
+      
+      
+              <div class="card shadow border bg-dark" style="color: white;">
+                <div class="card-body p-4">
+      
+                  <h4 class="mb-1 sfw-normal" id="cityname" style="display:capitalize;">Enter a city</h4>
+                  <p class="mb-2">Current temperature: <strong id="temp"></strong></p>
+                  <p>Feels like: <strong id="feel"></strong></p>
+                  <p>Max: <strong id="max"></strong>, Min: <strong id="min"></strong></p>
+      
+                  <div class="d-flex flex-row align-items-center">
+                    <p class="mb-0 me-4">Description: <strong id="desc"></strong></p>
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <script>
+            document.getElementById("search").onclick = () => {
+                var city = document.getElementById("city").value;
+                if(city.trim().length == 0){
+                    alert("Please give a city name");
+                }
+                else{
+                    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=954f57d268ff1f281ddb159e0cbd8d1e&units=metric`;
+                    document.getElementById("city").value = "";
+                    fetch(url)
+                        .then((resp)=>{
+                            return resp.json();
+                        }
+                        )
+                        .then((data) => {
+                            console.log(data);
+                            document.getElementById("cityname").innerText = city;
+                            document.getElementById("temp").innerText = data.main.temp + "°C";
+                            document.getElementById("max").innerText = data.main.temp_max + "°C";
+                            document.getElementById("min").innerText = data.main.temp_min + "°C";
+                            document.getElementById("feel").innerText = data.main.feels_like + "°C";
+                            document.getElementById("desc").innerText = data.weather[0].description;
+                        })
+                }
+            }
+      </script>
+</body>
+</html>
