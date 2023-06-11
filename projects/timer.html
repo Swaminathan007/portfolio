@@ -128,6 +128,7 @@
         }   
         document.getElementById("reset").onclick = () => {
             window.clearInterval(timeout);
+            document.getElementById("start").innerText = "Start";
             document.getElementById("timer").innerText = "25:00";
             document.getElementById("mins").innerText = "25";
             document.getElementById("up").disabled = false;
