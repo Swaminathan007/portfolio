@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMER</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        *{
+            font-family: sans-serif;
+        }
+        body{
+            background-color: black
+        }
+        .container{
+            width:60%;
+            background-color:aqua;
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        @media(max-width:600px){
+            .container{
+                width:80%;
+            }
+        }
+        .controls{
+            font-size: 32px;
+        }
+        .control{
+            background: none;
+            border:none;
+        }
+        .control:hover{
+            color:white;
+        }
+        .timer{
+            font-size: 35px;
+        }
+        .con{
+            width:100px;
+            height:40px;
+            border:1px solid black;
+            background: none;
+            border-radius: 20px;
+        }
+        .con:hover{
+            background-color: black;
+            color:white;
+        }
+        .content{
+            margin:10px;
+        }
+        .buttons{
+            margin:0px 5px 0px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h2>TIMER</h2>
+        </div>
+        <div class="controls content">
+            <button type="button" id="up" class="control"><span><i class="bi bi-caret-up-fill"></i></span></button>
+            <span class="mins" id="mins">25</span>
+            <button type="button" id="down" class="control"><span><i class="bi bi-caret-down-fill"></i></span></button>
+        </div>
+        <div class="timer content" id="timer">
+            25:00
+        </div>
+        <div class="buttons content">
+            <button id="start" type="button" class="con">Start</button>
+            <button id="reset" type="button" class="con">Reset</button>
+        </div>
+        <div class="content" id="indication">
+
+        </div>
+    </div>
+    <script>
+        var min = 25,sec = 0;
+        var dsec,dmin;
+        var timeout;
+        var paused = true;
+        function timer(){
+            if(sec == 0 && min == 0){
+                document.getElementById("indication").innerText = "Time\'s up";
+                document.getElementById("indication").style.color = "red";
+            }
+            else{
+                sec--;
+                if(sec < 0){
+                    min--;
+                    sec = 59;
+                }
+                if(sec < 10){
+                    dsec = "0"+sec.toString();
+                }
+                else{
+                    dsec = sec.toString();
+                }
+                if(min < 10){
+                    dmin = "0"+min.toString();
+                }
+                else{
+                    dmin = min.toString();
+                }
+                document.getElementById("timer").innerText = `${dmin}:${dsec}`;
+            }
+        }
+        document.getElementById("start").onclick = () => {
+            if(paused){
+                timeout = window.setInterval(timer,1000);
+                paused = false;
+                document.getElementById("start").innerText = "Stop";
+            }
+            else{
+                window.clearInterval(timeout);
+                paused = true;
+                document.getElementById("start").innerText = "Start";
+            }
+            document.getElementById("up").disabled = true;
+            document.getElementById("down").disabled = true;
+        }   
+        document.getElementById("reset").onclick = () => {
+            window.clearInterval(timeout);
+            document.getElementById("timer").innerText = "25:00";
+            document.getElementById("mins").innerText = "25";
+            document.getElementById("up").disabled = false;
+            document.getElementById("down").disabled = false;
+        }
+        function display(){
+            if(min < 10){
+                dmin = "0"+min.toString();
+            }
+            else{
+                dmin = min.toString();
+            }
+            document.getElementById("mins").innerText = `${dmin}`
+            document.getElementById("timer").innerText = `${dmin}:00`;
+        }
+        document.getElementById("up").onclick = () => {
+            min++;
+            if(min >= 60){
+                min = 60;
+            }
+            display();
+        }
+        document.getElementById("down").onclick = () => {
+            min--;
+            if(min <= 0){
+                min = 0;
+            }
+            display();
+        }
+    </script>
+</body>
+</html>
